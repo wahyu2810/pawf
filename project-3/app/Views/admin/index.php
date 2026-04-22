@@ -1,0 +1,105 @@
+<?= view('layout/header'); ?>
+
+<h3 class="mb-3">Admin Panel</h3>
+
+<a href="/admin/create" class="btn btn-primary mb-3">
+    + Tambah Post
+</a>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped align-middle">
+    <thead class="table-dark text-center">
+        <tr>
+            <th width="20%">Title</th>
+            <th width="15%">Slug</th>
+            <th width="25%">Content</th>
+            <th width="15%">Image</th>
+            <th width="15%">Created At</th>
+            <th width="10%">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($posts)): ?>
+            <?php foreach ($posts as $post): ?>
+            <tr>
+                <td><?= esc($post['title']); ?></td>
+                <td><?= esc($post['slug']); ?></td>
+
+                <!-- CONTENT DIPOTONG -->
+                <td>
+                    <?= esc(substr(strip_tags($post['content']), 0, 80)); ?>...
+                </td>
+
+                <!-- IMAGE -->
+                <td class="text-center">
+                    <?php if (!empty($post['image'])): ?>
+                        <img src="/uploads/<?= esc($post['image']); ?>" 
+                             width="80" 
+                             height="60"
+                             class="img-thumbnail"
+                             style="object-fit:cover; cursor:pointer;"
+                             data-bs-toggle="modal"
+                             data-bs-target="#imageModal"
+                             onclick="showImage('/uploads/<?= esc($post['image']); ?>')">
+                    <?php else: ?>
+                        <span class="text-muted">No Image</span>
+                    <?php endif; ?>
+                </td>
+
+                <!-- CREATED AT -->
+                <td class="text-center">
+                    <?= date('d M Y', strtotime($post['created_at'])); ?>
+                </td>
+
+                <!-- AKSI -->
+                <td class="text-center">
+                    <a href="/admin/edit/<?= $post['id']; ?>" 
+                       class="btn btn-warning btn-sm mb-1">
+                       Edit
+                    </a>
+
+                    <a href="/admin/delete/<?= $post['id']; ?>" 
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Yakin hapus data?')">
+                       Hapus
+                    </a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Tidak ada data
+                </td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+</div>
+
+<!-- ✅ MODAL PREVIEW IMAGE -->
+<div class="modal fade" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Preview Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <img id="previewImage" src="" class="img-fluid rounded">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ✅ SCRIPT -->
+<script>
+function showImage(src) {
+    document.getElementById('previewImage').src = src;
+}
+</script>
+
+<?= view('layout/footer'); ?>
