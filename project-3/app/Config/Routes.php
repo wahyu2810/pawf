@@ -22,6 +22,7 @@ $routes->get('/post/(:segment)', 'Post::detail/$1');
 // =======================
 
 // Dashboard admin
+$routes->group('', ['filter' => 'login'], function($routes){
 $routes->get('/admin', 'Admin::index');
 
 // Create
@@ -34,3 +35,4 @@ $routes->post('/admin/update/(:num)', 'Admin::update/$1');
 
 // Delete
 $routes->get('/admin/delete/(:num)', 'Admin::delete/$1');
+});
