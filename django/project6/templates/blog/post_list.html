@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load humanize blog_extras %}
+
+{% block title %}
+  {% if active_category %}{{ active_category.name }} · {% elif query %}Cari · {% endif %}Blog Wahyu
+{% endblock %}
+
+{% block content %}
+<!-- Filter kategori (pill horizontal ala Threads) -->
+<nav class="pillnav">
+  <a href="{% url 'post_list' %}" class="pill {% if not active_category and not query %}pill--active{% endif %}">Untuk Anda</a>
+  {% for category in categories %}
+  <a href="{{ category.get_absolute_url }}"
+     class="pill {% if active_category and active_category.pk == category.pk %}pill--active{% endif %}">
+    {{ category.name }}
+  </a>
+  {% endfor %}
+</nav>
+
+{% if query %}
+<p class="muted" style="padding:4px 4px 0;">Hasil pencarian untuk <strong>"{{ query }}"</strong></p>
+{% elif active_category %}
+<h1 class="section-title" style="padding:4px 4px 0;">{{ active_category.name }}</h1>
+{% endif %}
+
+<!-- Composer (hanya untuk yang sudah masuk) -->
+{% if user.is_authenticated and not query and not active_category %}
+<a href="{% url 'post_create' %}" class="composer" style="text-decoration:none;">
+  <span class="avatar avatar--md" style="background: {{ user|avatar_color }};">{{ user|initials }}</span>
+  <span class="composer__hint">Apa yang baru, {{ user.username }}?</span>
+  <span class="btn btn--solid btn--sm">Posting</span>
+</a>
+{% endif %}
+
+<!-- Feed -->
+{% for post in posts %}
+<article class="thread">
+  <span class="avatar avatar--md" style="background: {{ post.author|avatar_color }};">{{ post.author|initials }}</span>
+  <div class="thread__body">
+    <div class="thread__head">
+      <span class="thread__author">{{ post.author.username }}</span>
+      <span class="dot">·</span>
+      <span class="thread__meta">{{ post.created|naturaltime }}</span>
+      {% if post.category %}
+      <a href="{{ post.category.get_absolute_url }}" class="badge badge--cat">{{ post.category.name }}</a>
+      {% endif %}
+    </div>
+
+    <a href="{{ post.get_absolute_url }}" style="color:inherit;">
+      <h2 class="thread__title">{{ post.title }}</h2>
+      <p class="thread__text">{{ post.body|truncatewords:32 }}</p>
+    </a>
+
+    {% if post.featured_image %}
+    <a href="{{ post.get_absolute_url }}">
+      <img src="{{ post.featured_image.url }}" class="thread__image" alt="{{ post.title }}" />
+    </a>
+    {% endif %}
+
+    <div class="actions">
+      <a href="{{ post.get_absolute_url }}" class="action">💬 <span>{{ post.comments.count }}</span></a>
+      <button type="button" class="action js-share" data-url="{{ post.get_absolute_url }}">↗ <span class="label">Bagikan</span></button>
+    </div>
+  </div>
+</article>
+{% empty %}
+<div class="empty">
+  <div class="empty__icon">🕸️</div>
+  {% if query %}Tidak ada postingan yang cocok.{% else %}Belum ada postingan.{% endif %}
+</div>
+{% endfor %}
+
+<!-- Paginasi -->
+{% if is_paginated %}
+<nav class="pagination">
+  {% if page_obj.has_previous %}
+  <a class="btn btn--sm" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">← Sebelumnya</a>
+  {% endif %}
+  <span class="muted">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+  <a class="btn btn--sm" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Berikutnya →</a>
+  {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

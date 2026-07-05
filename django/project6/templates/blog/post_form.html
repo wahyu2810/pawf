@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} · Blog Wahyu{% endblock %}
+
+{% block content %}
+<h1 class="section-title" style="margin:8px 4px 16px;">{{ title }}</h1>
+
+<div class="card">
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="field">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+      {% for error in field.errors %}<div class="error">{{ error }}</div>{% endfor %}
+    </div>
+    {% endfor %}
+    <div style="display:flex; gap:10px; margin-top:6px;">
+      <button type="submit" class="btn btn--solid">Simpan</button>
+      <a href="{% url 'post_list' %}" class="btn">Batal</a>
+    </div>
+  </form>
+</div>
+<p class="muted" style="padding:12px 4px;">
+  💡 Pilih status <strong>Draft</strong> untuk menyimpan tanpa menampilkannya di feed,
+  atau <strong>Dipublikasikan</strong> agar tampil untuk semua orang.
+</p>
+{% endblock %}

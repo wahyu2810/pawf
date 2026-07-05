@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load humanize blog_extras %}
+
+{% block title %}{{ post.title }} · Blog Wahyu{% endblock %}
+
+{% block content %}
+<a href="{% url 'post_list' %}" class="action" style="margin:6px 0 4px;">← Kembali</a>
+
+<!-- Postingan utama -->
+<article class="thread" style="border-bottom:none;">
+  <span class="avatar avatar--lg" style="background: {{ post.author|avatar_color }};">{{ post.author|initials }}</span>
+  <div class="thread__body">
+    <div class="thread__head">
+      <span class="thread__author">{{ post.author.username }}</span>
+      <span class="dot">·</span>
+      <span class="thread__meta">{{ post.created|naturaltime }}</span>
+      {% if post.status == "draft" %}
+      <span class="badge badge--draft">● Draft</span>
+      {% else %}
+      <span class="badge badge--pub">● Dipublikasikan</span>
+      {% endif %}
+      {% if post.category %}
+      <a href="{{ post.category.get_absolute_url }}" class="badge badge--cat">{{ post.category.name }}</a>
+      {% endif %}
+    </div>
+
+    <h1 class="thread__title" style="font-size:1.4rem;">{{ post.title }}</h1>
+    <div class="thread__text thread__text--full">{{ post.body|linebreaksbr }}</div>
+
+    {% if post.featured_image %}
+    <img src="{{ post.featured_image.url }}" class="thread__image" alt="{{ post.title }}" />
+    {% endif %}
+
+    <div class="actions">
+      <span class="action">💬 <span>{{ comments.count }}</span></span>
+      <button type="button" class="action js-share" data-url="{{ post.get_absolute_url }}">↗ <span class="label">Bagikan</span></button>
+      {% if user == post.author %}
+      <a href="{% url 'post_update' post.slug %}" class="action">✏️ Sunting</a>
+      <a href="{% url 'post_delete' post.slug %}" class="action action--danger">🗑️ Hapus</a>
+      {% endif %}
+    </div>
+  </div>
+</article>
+
+<!-- Balasan / komentar -->
+<h3 class="replies-head">Balasan ({{ comments.count }})</h3>
+
+{% if user.is_authenticated %}
+<form method="post" class="reply-box">
+  {% csrf_token %}
+  <span class="avatar avatar--md" style="background: {{ user|avatar_color }};">{{ user|initials }}</span>
+  <div style="flex:1;">
+    {{ comment_form.body }}
+    <div style="text-align:right; margin-top:6px;">
+      <button type="submit" class="btn btn--solid btn--sm">Balas</button>
+    </div>
+  </div>
+</form>
+{% else %}
+<p class="muted" style="padding:14px 4px;">
+  <a href="{% url 'login' %}" class="link">Masuk</a> untuk ikut membalas.
+</p>
+{% endif %}
+
+{% for comment in comments %}
+<div class="thread">
+  <span class="avatar avatar--md" style="background: {{ comment.author|avatar_color }};">{{ comment.author|initials }}</span>
+  <div class="thread__body">
+    <div class="thread__head">
+      <span class="thread__author">{{ comment.author.username }}</span>
+      <span class="dot">·</span>
+      <span class="thread__meta">{{ comment.created|naturaltime }}</span>
+    </div>
+    <p class="thread__text" style="color:var(--text);">{{ comment.body|linebreaksbr }}</p>
+  </div>
+</div>
+{% empty %}
+<div class="empty" style="padding:34px 20px;">Belum ada balasan. Jadilah yang pertama!</div>
+{% endfor %}
+{% endblock %}

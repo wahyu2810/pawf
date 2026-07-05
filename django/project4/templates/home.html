@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% block content %}
+    <header>
+        <h1>Company Homepage</h1>
+    </header>
+        <p>The current date and time is: {% now "DATETIME_FORMAT" %}</p>
+        <p>There are {{ inventory_list|length }} items of inventory.</p>
+        <ul>
+        {% for item in inventory_list %}
+        <li>{{ item }}</li>
+        {% endfor %}
+        </ul>
+        <p>{{ greeting|title }}</p>
+        {% comment %}Add more content here!{% endcomment %}
+        {% endblock %}
+        <main>
+    </main>
+    <footer>
+    </footer>
+</body>
+</html>

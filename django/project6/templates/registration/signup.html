@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Daftar · Blog Wahyu{% endblock %}
+
+{% block content %}
+<div class="card card--narrow">
+  <h1 class="section-title center" style="margin-bottom:4px;">Buat Akun</h1>
+  <p class="muted center" style="margin-bottom:20px;">Bergabung dengan Blog Wahyu</p>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="field">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<div class="help">{{ field.help_text|safe }}</div>{% endif %}
+      {% for error in field.errors %}<div class="error">{{ error }}</div>{% endfor %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn--solid btn--block">Daftar</button>
+  </form>
+
+  <p class="center muted" style="margin-top:16px;">
+    Sudah punya akun? <a href="{% url 'login' %}" class="link">Masuk</a>
+  </p>
+</div>
+{% endblock %}

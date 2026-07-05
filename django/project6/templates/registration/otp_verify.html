@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Verifikasi OTP · Blog Wahyu{% endblock %}
+
+{% block content %}
+<div class="card card--narrow center">
+  <div style="font-size:2.2rem; margin-bottom:6px;">📧</div>
+  <h1 class="section-title">Masukkan Kode OTP</h1>
+  <p class="muted" style="margin:8px 0 20px;">
+    Kami mengirim kode 6 digit ke<br /><strong style="color:var(--text);">{{ email }}</strong>
+  </p>
+
+  {% if form.code.errors %}
+  <div class="flash flash--error"><span>{{ form.code.errors|join:" " }}</span></div>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class="field">
+      {{ form.code }}
+    </div>
+    <button type="submit" class="btn btn--solid btn--block">Verifikasi & Masuk</button>
+  </form>
+
+  <form method="post" action="{% url 'otp_resend' %}" style="margin-top:14px;">
+    {% csrf_token %}
+    <button type="submit" class="action" style="margin:0 auto;">🔄 Kirim ulang kode</button>
+  </form>
+
+  <p class="muted" style="margin-top:10px; font-size:0.8rem;">
+    Kode berlaku 5 menit. Salah alamat?
+    <a href="{% url 'login' %}" class="link">Ganti email</a>
+  </p>
+</div>
+
+<style>
+  .otp-input {
+    text-align: center;
+    letter-spacing: 0.6em;
+    font-size: 1.8rem;
+    font-weight: 700;
+    padding: 14px 10px !important;
+  }
+</style>
+{% endblock %}

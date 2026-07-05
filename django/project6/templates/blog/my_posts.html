@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Postingan Saya · Blog Wahyu{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; padding:8px 4px 4px;">
+  <h1 class="section-title">Postingan Saya</h1>
+  <a href="{% url 'post_create' %}" class="btn btn--solid btn--sm">✚ Tulis</a>
+</div>
+<p class="muted" style="padding:0 4px 8px;">Termasuk draft yang hanya terlihat oleh Anda.</p>
+
+{% for post in posts %}
+<div class="mine-item">
+  <div class="mine-item__main">
+    <div class="thread__head">
+      {% if post.status == "published" %}
+      <span class="badge badge--pub">● Publik</span>
+      {% else %}
+      <span class="badge badge--draft">● Draft</span>
+      {% endif %}
+      {% if post.category %}<span class="badge badge--cat">{{ post.category.name }}</span>{% endif %}
+      <span class="thread__meta">{{ post.created|naturaltime }}</span>
+    </div>
+    <a href="{{ post.get_absolute_url }}" class="mine-item__title">{{ post.title }}</a>
+  </div>
+  <a href="{% url 'post_update' post.slug %}" class="action">✏️</a>
+  <a href="{% url 'post_delete' post.slug %}" class="action action--danger">🗑️</a>
+</div>
+{% empty %}
+<div class="empty">
+  <div class="empty__icon">📝</div>
+  Anda belum memiliki postingan. <a href="{% url 'post_create' %}" class="link">Tulis yang pertama!</a>
+</div>
+{% endfor %}
+
+{% if is_paginated %}
+<nav class="pagination">
+  {% if page_obj.has_previous %}
+  <a class="btn btn--sm" href="?page={{ page_obj.previous_page_number }}">←</a>
+  {% endif %}
+  <span class="muted">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+  <a class="btn btn--sm" href="?page={{ page_obj.next_page_number }}">→</a>
+  {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

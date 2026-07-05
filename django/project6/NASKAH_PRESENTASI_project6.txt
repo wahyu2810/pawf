@@ -1,0 +1,236 @@
+================================================================================
+              NASKAH PRESENTASI - PROJECT6 "BLOG WAHYU"
+        Mata Kuliah : Pengembangan Aplikasi Web (Framework)
+        Framework   : Django 6.0.4 (Python 3.13)
+        Durasi      : +/- 10 Menit
+================================================================================
+
+Nama        : Wahyu Noer Rahmat
+Judul       : Blog Wahyu - Platform Blog Modern dengan Login Email + OTP
+Repositori  : github.com/wahyu2810/pawf
+
+
+--------------------------------------------------------------------------------
+  PANDUAN WAKTU (TOTAL 10 MENIT)
+--------------------------------------------------------------------------------
+  [0:00 - 1:00]   Pembukaan & perkenalan
+  [1:00 - 3:30]   Evolusi project-1 sampai project-5 (perbedaannya)
+  [3:30 - 4:30]   Pengenalan project6 (Blog Wahyu)
+  [4:30 - 7:30]   Fitur-fitur unggulan project6
+  [7:30 - 9:00]   Alur kerja & demonstrasi
+  [9:00 - 10:00]  Teknologi, pengujian, & penutup
+
+  (Catatan: kalimat di dalam tanda kutip "..." adalah yang bisa Anda ucapkan,
+   sedangkan poin ber-tanda ">>" atau "-" adalah bahan/pengingat.)
+
+
+================================================================================
+  BAGIAN 1 - PEMBUKAAN                                        [0:00 - 1:00]
+================================================================================
+
+"Assalamualaikum warahmatullahi wabarakatuh / Selamat pagi Bapak/Ibu dosen
+dan teman-teman semua.
+
+Perkenalkan, saya Wahyu Noer Rahmat. Pada kesempatan kali ini saya akan
+mempresentasikan proyek akhir saya yang berjudul 'BLOG WAHYU', yaitu sebuah
+website blog modern yang saya bangun menggunakan framework Django.
+
+Proyek ini adalah project6, dan merupakan puncak dari rangkaian pembelajaran
+saya mulai dari project-1 hingga project-5. Maka dari itu, sebelum masuk ke
+Blog Wahyu, izinkan saya menjelaskan terlebih dahulu perjalanan dan perbedaan
+dari project pertama sampai kelima, supaya terlihat bagaimana proyek ini
+berkembang secara bertahap."
+
+
+================================================================================
+  BAGIAN 2 - EVOLUSI & PERBEDAAN PROJECT-1 s/d PROJECT-5      [1:00 - 3:30]
+================================================================================
+
+"Konsepnya, setiap project menambahkan SATU konsep baru di atas project
+sebelumnya. Jadi ilmunya bertumpuk, dari yang paling sederhana sampai
+kompleks."
+
+
+  >> PROJECT-1 : FONDASI / KERANGKA DASAR
+     - Membuat proyek Django untuk pertama kali & mengenal strukturnya.
+     - Isinya baru kerangka inti: manage.py dan folder konfigurasi.
+     - Belum punya halaman apa pun; baru bisa membuka halaman /admin/.
+     - INTINYA: "Bagaimana cara membuat dan menjalankan sebuah proyek Django."
+
+  >> PROJECT_2 : HALAMAN PERTAMA (VIEW + TEMPLATE)
+     - Menambahkan sebuah aplikasi (app) bernama "pages".
+     - Membuat VIEW pertama yang menampilkan sebuah file HTML ke browser.
+     - INTINYA: "Bagaimana sebuah view mengirimkan halaman HTML ke pengguna."
+
+  >> PROJECT_3 : STYLING & HALAMAN GANDA
+     - Menambah halaman baru (About), jadi tidak cuma satu halaman.
+     - Mulai menggunakan Bootstrap 5 agar tampilan lebih rapi & menarik.
+     - INTINYA: "Menambah beberapa halaman sekaligus mempercantik tampilan."
+
+  >> PROJECT4 : TEMPLATE INHERITANCE & CLASS-BASED VIEW
+     - Membuat base.html sebagai kerangka bersama (navbar, footer, dll).
+     - Halaman lain cukup "extends" base.html -> tidak menulis ulang kode
+       yang sama (prinsip DRY - Don't Repeat Yourself).
+     - Mulai mengenal Class-Based View (TemplateView) selain fungsi biasa.
+     - Mulai mengirim data dari view ke template (context).
+     - INTINYA: "Menulis kode yang efisien & tidak berulang."
+
+  >> PROJECT5 : DATABASE PERTAMA (MODEL + MENAMPILKAN DATA)
+     - Membuat MODEL pertama, yaitu Post (sebuah message board sederhana).
+     - Data sekarang disimpan di DATABASE, lalu ditampilkan dengan ListView.
+     - Mendaftarkan model ke panel Admin Django.
+     - Menulis Unit Test pertama untuk memastikan program bekerja benar.
+     - INTINYA: "Menyimpan dan menampilkan data dari database."
+
+
+  RINGKASAN PERBEDAAN (dari sederhana ke kompleks):
+  ..............................................................................
+   project-1  |  Kerangka kosong      |  belum ada halaman
+   project_2  |  1 halaman            |  + view + template
+   project_3  |  Banyak halaman       |  + Bootstrap (styling)
+   project4   |  Template rapi        |  + inheritance + Class-Based View
+   project5   |  Pakai database       |  + Model + Admin + Unit Test
+   project6   |  APLIKASI LENGKAP     |  semua di atas + fitur nyata
+  ..............................................................................
+
+"Nah, jika project-1 sampai project-5 masih fokus pada satu-satu konsep,
+maka di project6 semua konsep tadi saya gabungkan dan kembangkan menjadi
+sebuah aplikasi blog yang benar-benar utuh dan bisa dipakai."
+
+
+================================================================================
+  BAGIAN 3 - PENGENALAN PROJECT6 (BLOG WAHYU)                 [3:30 - 4:30]
+================================================================================
+
+"Blog Wahyu adalah sebuah website blog yang lengkap. Kalau project5 hanya
+bisa MENAMPILKAN data, di Blog Wahyu pengguna bisa:
+ - membuat, menyunting, dan menghapus postingannya sendiri,
+ - memberi komentar,
+ - dan yang paling penting, login-nya sudah aman menggunakan verifikasi OTP
+   yang dikirim ke email.
+
+Dari sisi tampilan, saya mendesainnya bergaya seperti aplikasi 'Threads',
+yaitu feed satu kolom di tengah, ada avatar, dan mendukung mode gelap
+maupun terang.
+
+Jadi Blog Wahyu ini menggabungkan tiga hal: fungsi lengkap (CRUD),
+keamanan (OTP), dan tampilan modern."
+
+
+================================================================================
+  BAGIAN 4 - FITUR-FITUR UNGGULAN PROJECT6                    [4:30 - 7:30]
+================================================================================
+
+"Berikut fitur-fitur utama yang ada di Blog Wahyu:"
+
+  1) MANAJEMEN POSTINGAN (CRUD LENGKAP)
+     - Create, Read, Update, Delete postingan menggunakan Class-Based View
+       (CreateView, DetailView, UpdateView, DeleteView).
+     - Ini pengembangan dari project5 yang tadinya cuma bisa membaca (List).
+
+  2) STATUS DRAFT & DIPUBLIKASIKAN
+     - Postingan bisa disimpan sebagai DRAFT (hanya terlihat penulisnya)
+       atau DIPUBLIKASIKAN (terlihat semua orang).
+     - Mirip fitur simpan draft di blog profesional.
+
+  3) LOGIN 2 LANGKAH DENGAN OTP  (fitur unggulan)
+     - Langkah 1: pengguna memasukkan EMAIL + PASSWORD.
+     - Langkah 2: sistem mengirim KODE OTP 6 digit ke email pengguna.
+     - Pengguna harus memasukkan kode itu untuk berhasil masuk.
+     - Kode OTP berlaku 5 menit, sekali pakai, dan ada batas percobaan.
+     - Ini membuat login jauh lebih aman dibanding sekadar password.
+
+  4) SISTEM KOMENTAR
+     - Pengguna yang sudah login bisa memberi komentar pada postingan.
+
+  5) KATEGORI & PENCARIAN
+     - Postingan bisa dikelompokkan per kategori dan difilter.
+     - Ada fitur pencarian berdasarkan judul maupun isi.
+
+  6) PAGINASI & UPLOAD GAMBAR
+     - Daftar postingan dibagi per halaman (paginasi).
+     - Setiap postingan bisa memiliki gambar utama (upload gambar).
+
+  7) OTORISASI (HAK AKSES)
+     - Hanya PENULIS asli yang boleh menyunting atau menghapus postingannya.
+     - Pengguna lain tidak bisa mengubah postingan milik orang.
+
+  8) PANEL ADMIN KUSTOM
+     - Admin bisa mengelola postingan, kategori, komentar, dan OTP.
+     - Dilengkapi filter, pencarian, dan slug otomatis.
+
+  9) TAMPILAN BERGAYA THREADS + MODE GELAP/TERANG
+     - Feed satu kolom, avatar berwarna otomatis, tombol ganti tema.
+
+ 10) PENGUJIAN OTOMATIS
+     - Ada 26 unit test yang memastikan semua fitur berjalan benar.
+
+
+================================================================================
+  BAGIAN 5 - ALUR KERJA & DEMONSTRASI                         [7:30 - 9:00]
+================================================================================
+
+"Sekarang saya jelaskan alur penggunaannya. (Jika ada demo langsung,
+tunjukkan sambil menjelaskan.)"
+
+  LANGKAH DEMO:
+  1. Buka halaman beranda -> muncul daftar postingan (feed) bergaya Threads.
+  2. Klik 'Daftar' untuk membuat akun baru (wajib mengisi email).
+  3. Klik 'Masuk':
+       - Masukkan email + password.
+       - Sistem mengirim kode OTP ke email.
+       - Buka email, salin kode OTP, lalu masukkan -> berhasil login.
+  4. Klik 'Tulis' untuk membuat postingan baru:
+       - Isi judul, kategori, isi, dan pilih status Draft atau Dipublikasikan.
+  5. Buka salah satu postingan -> tulis komentar.
+  6. Coba fitur pencarian & filter kategori.
+  7. Coba tombol ganti tema (gelap/terang) di pojok kanan atas.
+  8. Login sebagai admin di /admin/ untuk mengelola seluruh data.
+
+"Perlu saya tekankan, saat mode pengembangan, kode OTP bisa dilihat di
+terminal. Namun saya juga sudah mengonfigurasinya agar bisa mengirim OTP
+ke email asli menggunakan SMTP Gmail."
+
+
+================================================================================
+  BAGIAN 6 - TEKNOLOGI, PENGUJIAN, & PENUTUP                  [9:00 - 10:00]
+================================================================================
+
+  TEKNOLOGI YANG DIGUNAKAN:
+   - Bahasa      : Python 3.13
+   - Framework   : Django 6.0.4
+   - Database    : SQLite
+   - Tampilan    : HTML, CSS kustom (tema Threads)
+   - Gambar      : Pillow
+   - Email/OTP   : Django Email (SMTP Gmail / konsol)
+   - Konfigurasi : python-dotenv (menyimpan rahasia di file .env)
+
+  PENGUJIAN:
+   - 26 unit test (model, view, otorisasi, komentar, dan alur OTP) -> LULUS.
+
+  PENUTUP:
+  "Sebagai kesimpulan, project6 'Blog Wahyu' adalah gabungan dari seluruh
+  konsep yang saya pelajari di project-1 sampai project-5, lalu saya
+  kembangkan menjadi sebuah aplikasi blog yang lengkap, aman dengan OTP,
+  dan memiliki tampilan yang modern.
+
+  Sekian presentasi dari saya. Terima kasih atas perhatiannya, dan saya
+  persilakan jika ada pertanyaan.
+  Wassalamualaikum warahmatullahi wabarakatuh."
+
+
+================================================================================
+  LAMPIRAN - TIPS PRESENTASI 10 MENIT
+================================================================================
+  - Latihan sekali dengan stopwatch; target setiap bagian sesuai panduan waktu.
+  - Jangan membaca kata per kata; pahami poinnya lalu sampaikan santai.
+  - Siapkan browser sudah terbuka di halaman beranda sebelum mulai (hemat waktu).
+  - Jika demo OTP, siapkan tab email/terminal agar kode cepat ditemukan.
+  - Jika waktu mepet, bagian yang bisa dipercepat: Bagian 5 (demo).
+  - Jika ditanya "apa bedanya dengan project5?": jawab singkat -> "project5
+    hanya bisa menampilkan data, project6 sudah CRUD penuh + login OTP +
+    komentar + tampilan modern."
+
+================================================================================
+                              -- SELESAI --
+================================================================================

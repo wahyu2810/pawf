@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Masuk · Blog Wahyu{% endblock %}
+
+{% block content %}
+<div class="card card--narrow">
+  <h1 class="section-title center" style="margin-bottom:4px;">✍️ Blog Wahyu</h1>
+  <p class="muted center" style="margin-bottom:20px;">Masuk dengan email & password Anda</p>
+
+  {% if form.non_field_errors %}
+  <div class="flash flash--error"><span>{{ form.non_field_errors|join:" " }}</span></div>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+    <div class="field">
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }}
+      {% for error in form.email.errors %}<div class="error">{{ error }}</div>{% endfor %}
+    </div>
+    <div class="field">
+      <label for="{{ form.password.id_for_label }}">Password</label>
+      {{ form.password }}
+      {% for error in form.password.errors %}<div class="error">{{ error }}</div>{% endfor %}
+    </div>
+    <button type="submit" class="btn btn--solid btn--block">Kirim Kode OTP →</button>
+  </form>
+
+  <p class="muted center" style="margin-top:14px; font-size:0.82rem;">
+    🔒 Setelah ini, kode OTP dikirim ke email Anda untuk verifikasi.
+  </p>
+
+  <p class="center muted" style="margin-top:10px;">
+    Belum punya akun? <a href="{% url 'signup' %}" class="link">Daftar</a>
+  </p>
+</div>
+{% endblock %}
